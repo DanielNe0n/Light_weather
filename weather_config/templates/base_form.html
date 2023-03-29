@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block head_params %}
+    <link rel="stylesheet" href="{% static 'weather/css/base_form.css' %}">
+{% endblock %}
+
+
+{% block head_title %}
+    base form
+{% endblock %}
+
+{% block nav %}
+<nav class="navigation">
+    <div class="auth">
+            {% block optional_nav %} base other {% endblock %} | 
+            <a href="{% url 'main_page' %}">Back</a>
+    </div>
+</nav>
+{% endblock %}
+
+
+{% block content %}
+
+{% block show_errors %}
+
+{% if form.errors %}
+    <ul>
+        {% for field, errors in form.errors.items %}
+            {% for error in errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{% endblock %}
+
+<div class="auth-block">
+    <h1>{% block form_header %}Base form header{% endblock %}</h1>
+    <div class="form">
+            <form class="fields-block" id="fields_block" method="post" 
+                    {% block form_action %} action=" " {% endblock %}>
+                {% csrf_token %}
+                {% for field in form %}
+                    {{ field.label_tag }} {{ field }}
+                {% endfor %}
+                <button type="submit" class="auth_submit" id="register_btn">
+                {% block button_text %} base {% endblock %}
+            </button>
+        </form>
+        {% block forgot_password %} {% endblock %}
+
+    </div>
+</div>
+    
+
+{% endblock %}
+

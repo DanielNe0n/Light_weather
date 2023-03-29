@@ -1,0 +1,175 @@
+{% extends 'base.html' %}
+
+{% block head_title %}
+    Light weather
+{% endblock %}
+
+{% block content %}
+    <div class="brand">
+        <h2>Light weather</h2>
+    </div>
+    <div class="search-city">
+        <form  method="post">
+            {% csrf_token %}
+            <input name="city" id="enter-city" 
+                   class="enter-city" type="text" 
+                   value="Enter here..."> 
+
+            <button id="send-city" class="send-city" 
+                    type="submit">
+                          Send
+            </button>       
+        </form>
+    </div>
+
+    {% if cities %}
+    <div class="cards" id="cards">
+
+    </div>
+    {% endif %}
+
+
+    <script>
+        let xhr_get_data = new XMLHttpRequest()
+
+        xhr_get_data.open("GET", "{% url 'main_page' %}")
+        xhr_get_data.responseType = "json"
+        xhr_get_data.setRequestHeader("X-Requested-With", "XMLHttpRequest")
+
+        xhr_get_data.send()
+        xhr_get_data.onload = function(){
+            
+            let data = xhr_get_data.response
+
+            for(let city in data){
+                if (data[city]["sys"]) {
+                    //checking if sys exists and make variables from data
+
+                    country = data[city]["sys"]["country"]
+                    city_with_country = `${country.toUpperCase()} - ${city.toUpperCase()}`
+
+                    city_description = data[city]["weather"][0]["description"]
+                    city_img_code = data[city]["weather"][0]["icon"]
+                        
+                    city_img_url = `https://openweathermap.org/img/wn/${city_img_code}@2x.png`
+                    
+
+                    city_main_temp_unclean = data[city]["main"]["temp"].toString();
+                    let city_main_temp = city_main_temp_unclean.split(".")[0];
+                                //remove "." from main temperature
+
+                    city_min_temp = data[city]["main"]["temp_min"]   
+                    city_max_temp = data[city]["main"]["temp_max"]   
+
+                    console.log(city_max_temp)
+                    console.log(city_min_temp)
+
+                    
+                    //create card
+                    let cards = document.getElementById("cards")
+
+                    let block_full_card = document.createElement("div")
+                    block_full_card.setAttribute("class", "full-card")
+                         
+                    
+                    let block_city_country = document.createElement("h3")
+                    block_city_country.setAttribute("id", "country-city")
+                    block_city_country.innerText = city_with_country
+                        
+                    let block_card = document.createElement("div")
+                    block_card.setAttribute("class", "card")
+                             
+                        
+                    let block_min_max = document.createElement("div")
+                    block_min_max.setAttribute("class", "min-max")
+                    block_min_max.innerText = `min: ${city_min_temp} ~ max: ${city_max_temp}`
+
+                    let block_main_temp = document.createElement("div")
+                    block_main_temp.setAttribute("class", "main-temperature")
+                    block_main_temp.innerText = city_main_temp + "°C"
+                    
+                    let block_short_info = document.createElement("div")
+                    block_short_info.setAttribute("class", "short-info")
+                    block_short_info.innerText = city_description
+                    
+                    let block_details_img = document.createElement("div")
+                    block_details_img.setAttribute("class", "details-img")
+                        
+                    let block_weather_img = document.createElement("div")
+                    block_weather_img.setAttribute("class", "weather-img")
+     
+
+                    let block_img_icon = document.createElement("img")
+                    block_img_icon.setAttribute("src", city_img_url)
+                    block_img_icon.setAttribute("class", "weather-icon")
+                    block_img_icon.setAttribute("alt", "weather icon")
+                                    
+                    //adding childs
+                    block_weather_img.appendChild(block_img_icon)
+                    block_details_img.appendChild(block_weather_img)
+
+                    block_card.append(block_min_max)
+                    block_card.append(block_main_temp)
+                    block_card.append(block_short_info)
+                    block_card.append(block_details_img)
+
+                    block_full_card.append(block_city_country)
+                    block_full_card.append(block_card)
+                    
+                    cards.append(block_full_card)
+                
+                }
+            }
+            
+        }
+        console.log(2)
+        xhr_get_data.onerror = function(){
+            alert("error")
+        }
+
+    </script>
+    
+    <script>
+        let send_button = document.getElementById("send-city")
+        send_button.addEventListener("click", function(event){
+            event.preventDefault()
+            
+            let xhr_send_send_city = new XMLHttpRequest()
+            let data = new FormData()
+            let entered_city = document.getElementById("enter-city")
+            
+            data.append("entered_city", entered_city.value)
+
+            xhr_send_send_city.open("POST", "{% url 'main_page' %}")
+            xhr_send_send_city.setRequestHeader("x-requested-with", "XMLHttpRequest")
+            xhr_send_send_city.setRequestHeader("X-CSRFToken", "{{ csrf_token }}")
+            xhr_send_send_city.send(data)
+
+            xhr_send_send_city.onload = function(){
+                console.log("OK")
+                location.reload()
+            } 
+        })
+    </script>
+
+    <script>
+        let input_city = document.getElementById("enter-city")
+        let send_btn = document.getElementById("send-city")
+
+        input_city.addEventListener("click", function(){
+            input_city.value = " "
+        })
+
+        input_city.addEventListener("input", function(){
+            send_btn.style.fontSize = "xx-large"
+            send_btn.style.transition = "1s"
+
+        })
+        
+        input_city.addEventListener("blur", function(){
+            send_btn.style.fontSize = "x-large"
+            input_city.value = "Enter here..."
+        })
+
+    </script>
+{% endblock %}

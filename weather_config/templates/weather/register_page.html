@@ -1,0 +1,16 @@
+{% extends 'base_form.html' %}
+
+
+
+{% block head_title %}
+    Register
+{% endblock %}
+
+
+{% block optional_nav %}<a href="{% url 'login_page' %}">Login</a>{% endblock %}
+
+{% block form_header %} Register {% endblock %}
+
+
+{% block button_text %} Register {% endblock %}
+{% block form_action %}action="{% url 'register_page'%}"{% endblock %}

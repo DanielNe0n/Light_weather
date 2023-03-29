@@ -1,0 +1,46 @@
+.auth-block{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin:auto auto;
+    text-align: center;
+}
+.auth_submit{
+    display: block;
+    margin: 10px auto;
+    height:6vh;
+
+    opacity: 0.7;
+    font-size:  large;
+    min-width: 8vw;
+
+    background-color: #ff7b7b75;
+    color: #ffffff;
+    font-family: "iosevka_regular";
+    
+    border: none;
+}
+label, small{
+    display: block;
+}
+
+small{
+    overflow-wrap: break-word;
+}
+.fields-block{
+    width:25vw;
+    margin:0 auto;
+    padding:25px 10px
+}
+
+.fields-block img{
+    
+    display: block;
+    margin: 5px auto 10px auto;
+}
+
+@media screen and (max-width:768px){
+    .field-block{
+        width:70vw;
+    }
+}

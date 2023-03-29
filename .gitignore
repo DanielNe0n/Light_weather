@@ -1,0 +1,9 @@
+**/migrations/
+requirements.txt
+venv/
+.vscode/
+db.sqlite3
+__pycache__/
+plans.md
+.env
+Weather.code-workspace

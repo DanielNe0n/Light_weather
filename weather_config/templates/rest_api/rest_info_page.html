@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head_params %}
+    <link rel="stylesheet" href="{% static 'weather/css/rest_info.css' %}">
+{% endblock %}
+
+{% block head_title %} Light weather API {% endblock %}
+
+
+{% block nav %}
+<nav class="navigation">
+    <div class="auth">
+        <a href="{% url 'logout_page' %}">logout</a> | 
+        <a href="{% url 'main_page' %}">Back</a>
+    </div>
+</nav>
+{% endblock %}
+
+
+{% block content %}
+    <div class="main_block_info">
+        <h1>Hello {{request.user.username}}</h1>
+        <h2>Here is your authentication token <br>
+            <span class="important_info token">{{ token }}</span><br>
+            <h4>And don't forget to add the header - <span class="important_info">Authorization: token</span></h4>
+        </h2>
+        
+        <div class="block_info">
+            <div class="main_info">
+                <h4>If you want to get all the cities from your account, use a GET request to the page:<br>
+                    <span class="important_info">{% url 'rest:all_cities' %}.</span><br>
+                </h4>
+            </div>
+
+            <div class="main_info">
+                <h4>And if you want to add a city, use a POST request to the same page:<br>
+                    <span class="important_info">{% url 'rest:all_cities' %}.</span><br>           
+                    Where the parameter <span class="important_info">"City":"value".</span>
+                </h4>
+            </div>
+        </div>
+    </div>
+    
+{% endblock %}

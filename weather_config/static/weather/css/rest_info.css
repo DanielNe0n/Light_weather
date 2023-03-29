@@ -1,0 +1,27 @@
+
+
+.main_block_info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.block_info{
+    display: flex;
+    flex-direction: row;
+}
+
+.main_info {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    max-width: 30vw;
+}
+
+.token{
+    background-color: rgba(255, 255, 255, 0.21);
+}
+
+.important_info{
+    font-family: 'iosevka_medium';
+}
