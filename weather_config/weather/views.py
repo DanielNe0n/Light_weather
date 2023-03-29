@@ -98,8 +98,8 @@ def user_login(request):
             print(username, password)
             if user is not None:
                 login(request, user)
-                print('true')
                 return redirect('main_page')
+            form.add_error('__all__', 'form not valid')
 
         else:
             form.add_error('__all__', 'form not valid')
