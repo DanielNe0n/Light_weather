@@ -169,11 +169,16 @@ a:hover{
 
 @media screen and (max-width:479px){
     .background-overlay{
-        bottom: -100vh; 
+        bottom: -10vh; 
     }
 
     .cards{
         display: block;
+    }
+    .enter-city{
+        width: 50vw;
+        height: 10vh;
+        font-size: large;
     }
      
 }

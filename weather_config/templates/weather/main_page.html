@@ -40,10 +40,16 @@
         xhr_get_data.onload = function(){
             
             let data = xhr_get_data.response
-
+            let i = [-10, 'vh']
             for(let city in data){
                 if (data[city]["sys"]) {
                     //checking if sys exists and make variables from data
+
+                    if(window.innerWidth <= 480){
+                        let background_img = document.getElementById("background_overlay")
+                        i[0] = i[0] - 20
+                        background_img.style.bottom = i[0] + i[1]
+                    }
 
                     country = data[city]["sys"]["country"]
                     city_with_country = `${country.toUpperCase()} - ${city.toUpperCase()}`
